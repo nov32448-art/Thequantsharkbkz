@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximize Profits</title>
+    <!-- Import Google Font for exact typography match -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4; /* Gray background outside the mobile view */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Mobile View Container */
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            height: 100vh;
+            max-height: 900px;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Top Gradient Background */
+        .gradient-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(180deg, #b0a3ff 0%, rgba(255,255,255,1) 100%);
+            z-index: 1;
+        }
+
+        /* Image Section */
+        .image-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10%; /* Adjusts phone position */
+            flex-grow: 1;
+        }
+
+        .image-container img {
+            width: 75%;
+            object-fit: contain;
+            /* Added smooth fade effect at bottom of image to blend with white */
+            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        }
+
+        /* Content Section */
+        .content-section {
+            position: relative;
+            z-index: 3;
+            padding: 20px 25px;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #000000;
+            line-height: 1.3;
+            margin-bottom: 25px;
+        }
+
+        /* Gradient Button */
+        .btn-start {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(90deg, #9b81ff 0%, #ede8ff 100%);
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-start:active {
+            transform: scale(0.98);
+        }
+
+        /* Checkbox Area */
+        .checkbox-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .checkbox-area input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #9b81ff; /* Colors the checkbox when ticked */
+        }
+
+        .checkbox-area label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .subtext {
+            font-size: 12px;
+            color: #666666;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+
+        /* Footer Links */
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px 25px 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* Custom Alert styling for better UI instead of default browser alert */
+        #error-msg {
+            color: red;
+            font-size: 12px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            display: none;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsiveness for full screen on actual phones */
+        @media (max-width: 450px) {
+            .app-container {
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Top Gradient Background -->
+        <div class="gradient-bg"></div>
+
+        <!-- Phone Image Section -->
+        <div class="image-container">
+            <img src="https://i.ibb.co/XfWKqKM0/Picsart-26-06-27-18-40-40-993.png" alt="Smartphone Analytics">
+        </div>
+
+        <!-- Text and Actions Section -->
+        <div class="content-section">
+            <h1>Maximize Profits with<br>Smart Analytics</h1>
+            
+            <button class="btn-start" id="submitBtn">Get Started</button>
+            <div id="error-msg">Please accept the Terms & Conditions to proceed.</div>
+
+            <div class="checkbox-area">
+                <input type="checkbox" id="termsCheckbox">
+                <label for="termsCheckbox">I Accept Terms & Conditions</label>
+            </div>
+            
+            <p class="subtext">By continuing you agree to our Terms of Services and<br>Privacy Policy</p>
+            
+            <div class="footer-links">
+                <a href="#">Privacy & Policy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Disclaimer</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to make Terms & Conditions work -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('submitBtn');
+            const checkbox = document.getElementById('termsCheckbox');
+            const errorMsg = document.getElementById('error-msg');
+
+            btn.addEventListener('click', function() {
+                if (checkbox.checked) {
+                    // Logic when checked
+                    errorMsg.style.display = 'none';
+                    btn.innerHTML = "Processing...";
+                    
+                    // Simulate loading / moving to next page
+                    setTimeout(() => {
+                        alert("Success! Terms accepted. Redirecting to dashboard...");
+                        btn.innerHTML = "Get Started";
+                    }, 800);
+                } else {
+                    // Logic when NOT checked (Show error)
+                    errorMsg.style.display = 'block';
+                    
+                    // Shake animation effect for button
+                    btn.style.transform = "translateX(-5px)";
+                    setTimeout(() => btn.style.transform = "translateX(5px)", 100);
+                    setTimeout(() => btn.style.transform = "translateX(0)", 200);
+                }
+            });
+
+            // Hide error message as soon as user clicks the checkbox
+            checkbox.addEventListener('change', function() {
+                if(this.checked) {
+                    errorMsg.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
